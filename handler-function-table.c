@@ -26,7 +26,8 @@ const char *handler_function_default(void)
 }
 
 #ifdef __AVR__
-/* On AVR, avoid function stack frame and just jump */
+
+/* On AVR, avoid function stack frame and just jump to target */
 __attribute__((naked))
 const char *__handler_function_default(void)
 {
@@ -34,9 +35,12 @@ const char *__handler_function_default(void)
 	       "jmp handler_function_default\n\t"
 	       :::);
 }
+
 #else
+
 const char *__handler_function_default(void)
 {
   return handler_function_default();
 }
+
 #endif
